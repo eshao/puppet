@@ -20,6 +20,7 @@ List of Modules
 * __ezjail__ -- Jail manager for FreeBSD. Really useful for setting up/tearing down jails quickly.
 * __mount__ -- Very simple module to control jailed fstabs for ezjail.
 * __nginx__ -- Complete configuration to nginx, one of my specialties. It includes a copy of [stationx](http://github.com/eshao/stationx), a configuration generation tool for nginx -- it makes managing nginx configuration files much easier!
+* __mysql__ -- Simple mysql+[sphinx](http://www.sphinxsearch.com/) module.
 
 
 Caveats
