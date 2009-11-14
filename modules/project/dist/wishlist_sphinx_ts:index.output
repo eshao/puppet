@@ -1,0 +1,23 @@
+dso /var/www/dsoglobal.org/wishlist/cron> ./hourly
+(in /var/www/dsoglobal.org/wishlist)
+Generating Configuration to /var/www/dsoglobal.org/wishlist/config/development.sphinx.conf
+indexer --config /var/www/dsoglobal.org/wishlist/config/development.sphinx.conf --all --rotate
+Sphinx 0.9.8.1-release (r1533)
+Copyright (c) 2001-2008, Andrew Aksyonoff
+
+using config file '/var/www/dsoglobal.org/wishlist/config/development.sphinx.conf'...
+indexing index 'opportunity_core'...
+collected 182 docs, 0.2 MB
+collected 0 attr values
+sorted 0.0 Mvalues, 100.0% done
+sorted 0.0 Mhits, 100.0% done
+total 182 docs, 167986 bytes
+total 0.147 sec, 1142777.43 bytes/sec, 1238.11 docs/sec
+indexing index 'opportunity_delta'...
+collected 0 docs, 0.0 MB
+collected 0 attr values
+sorted 0.0 Mvalues, nan% done
+total 0 docs, 0 bytes
+total 0.047 sec, 0.00 bytes/sec, 0.00 docs/sec
+distributed index 'opportunity' can not be directly indexed; skipping.
+rotating indices: succesfully sent SIGHUP to searchd (pid=80444).

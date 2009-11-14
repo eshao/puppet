@@ -12,6 +12,12 @@ Infrastructure
 I heavily use jails as a virtualization tool. Puppet + Jails = easy to put up and tear down (virtual) machines at whim.
 
 
+List of Modules
+===============
+* core -- System files for hypervisor and child jails.
+* environment/project -- Baseline programming environments for projects to inherit and examples of some of those projects.
+
+
 Caveats
 =======
 These configuration files are all working and in production on my own server. However, because I redacted several files for privacy reasons (SSH id_rsa's, for example), I don't guarantee that the complete configuration will work out of the box for you.

@@ -1,0 +1,3 @@
+# environment/init.pp
+
+import "*"

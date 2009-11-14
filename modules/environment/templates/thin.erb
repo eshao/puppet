@@ -1,0 +1,31 @@
+#!/bin/sh
+# PROVIDE: thin_<%= name %>
+# REQUIRE: DAEMON
+# KEYWORD: shutdown
+#
+# thin_<%= name %>_enable (bool):
+#       Set it to YES to enable this service.
+#       Default: NO
+
+. /etc/rc.subr
+
+name=thin_<%= name %>
+rcvar=${name}_enable
+
+command="/usr/local/bin/thin"
+
+load_rc_config $name
+
+: ${thin_<%= name %>_enable="NO"}
+
+command_args="-C <%= File.join(chdir, "log", "thin.yml") %>"
+start_cmd="thin_cmd start"
+stop_cmd="thin_cmd stop"
+status_cmd="thin_cmd status"
+
+thin_cmd()
+{
+    ${command} $1 ${thin_flags} ${command_args} 2>&1 | grep -v "procfs"
+}
+
+run_rc_command "$1"

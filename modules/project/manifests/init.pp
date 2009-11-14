@@ -1,0 +1,4 @@
+# project/init.pp
+
+import "*"
+
