@@ -5,11 +5,28 @@ This is a collection of puppet configuration files for FreeBSD. I make heavy use
 I am definitely willing to add additional documentation as necessary. Just [email](mailto:oss@eshao.es) me.
 
 
+Infrastructure
+==============
+(TODO: Introduction to my server's infrastructure and personal philosophy behind managing servers here.)
+
+I heavily use jails as a virtualization tool. Puppet + Jails = easy to put up and tear down (virtual) machines at whim.
+
+
+Caveats
+=======
+These configuration files are all working and in production on my own server. However, because I redacted several files for privacy reasons (SSH id_rsa's, for example), I don't guarantee that the complete configuration will work out of the box for you.
+
+However, I still think they'll be of instructive value for those who think/code like me. I searched quite a while for a complete/simple/comprehensive Puppet public repository and failed to find one. There are several [complete](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) ones, but were slightly confusing for me to follow along.
+
+My suggestion for you is try all of them and pick the author you find most lucid.
+
+
 TODO
 ====
 There is an embarassing amount TODO simply because I just started this project. Hints on how to prioritize would be nice. Again, hit up my email.
 
-* Document how I setup the various files in /manifests and how they interact.
+* Introduction on my server infrastructure / use of jails as a background.
+* Logic behind the various files in /manifests and how they interact.
 * Document the use of defines and defaults within modules.
 * Table of contents page with brief summary of each module.
 * Make this TODO list comprehensive.
