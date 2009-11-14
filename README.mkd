@@ -1,0 +1,15 @@
+Introduction
+============
+This is a collection of puppet configuration files for FreeBSD. I make heavy use of defaults and defines to heavily reduce code weight. Hopefully this will be of instructive value to new users of Puppet and inspirational value to old users.
+
+I am definitely willing to add additional documentation as necessary. Just [email](mailto:oss@eshao.es) me.
+
+
+TODO
+====
+There is an embarassing amount TODO simply because I just started this project. Hints on how to prioritize would be nice. Again, hit up my email.
+
+* Document how I setup the various files in /manifests and how they interact.
+* Document the use of defines and defaults within modules.
+* Table of contents page with brief summary of each module.
+* Make this TODO list comprehensive.
