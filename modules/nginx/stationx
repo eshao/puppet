@@ -1,0 +1,173 @@
+#!/usr/bin/env ruby
+
+require 'lib/options_core.rb'
+require 'lib/nginx_server.rb'
+
+################################################################################
+#
+#
+#  OVERTURE
+#
+#
+A = 'files/enabled'
+gen = { 
+  :hyper => File.join(A, "gen.host.hyper"),
+  :neko => File.join(A, "gen.host.neko"),
+  :dso => File.join(A, "gen.host.dso"),
+  :lp => File.join(A, "gen.host.lp"),
+  :default => File.join(A, "gen.all"),
+ }
+P = '/etc/nginx/passwords'
+pw = { 
+  :personal => File.join(P, "personal.htaccess")
+ }
+def www(str); File.join('/var/www', str); end
+def lh(str); File.join(www('localhost'), str); end
+
+# Clean <files/enabled>.
+`sudo rm #{ A }/* && sudo touch #{A}/gen.host`
+
+################################################################################
+#
+#
+# Club websites
+#
+#
+N.new('.cmu-ucc.com') { php } >> gen[:neko]
+
+# DSO
+def dso(str); www(File.join('dsoglobal.org',str)); end
+dso_log = dso('log')
+
+N.new('.dsoglobal.org',         dso('public'),   dso_log) \
+  { php } >> gen[:dso] 
+N.new('forms.dsoglobal.org',    dso('forms'),    dso_log) \
+  { index_redir('index.php?n='); php } >> gen[:dso]
+N.new('crm.dsoglobal.org',      dso('crm'),      dso_log) \
+  { php } >> gen[:dso]
+N.new('wiki.dsoglobal.org',     dso('wiki'),     dso_log) \
+  { doku; php } >> gen[:dso]
+N.new('research.dsoglobal.org', dso('research'), dso_log) \
+  { doku; php } >> gen[:dso]
+N.new('wishlist.dsoglobal.org', dso('wishlist'), dso_log) \
+  { rails(9474, 2) } >> gen[:dso]
+
+# Redirect from cmudso.org -> dsoglobal.org.
+redir('.cmudso.org',         'http://dsoglobal.org')          >> gen[:dso]
+redir('crm.cmudso.org',      'http://crm.dsoglobal.org')      >> gen[:dso]
+redir('research.cmudso.org', 'http://research.dsoglobal.org') >> gen[:dso]
+redir('wishlist.cmudso.org', 'http://wishlist.dsoglobal.org') >> gen[:dso]
+N.new('forms.cmudso.org',    dso('forms'), dso_log) \
+  { index_redir('index.php?n='); php } >> gen[:dso]
+
+# Mailman
+N.new('lists.dsoglobal.org', :localhost) { mailman }       >> gen[:dso]
+redir('lists.cmudso.org',    'http://lists.dsoglobal.org') >> gen[:dso]
+N.new('lists.nekogiri.com',  :localhost) { mailman }       >> gen[:dso]
+
+################################################################################
+#
+#
+# Wordpress
+#
+# 1) Edit <wp-config.php>.
+# 2) Run <esql mkdb wp_(name)>, <esql grant wordpress wp_(name)>.
+# 3) Run <(base)/wp-admin/install.php> OR restore an SQL dump.
+#
+# ref: <http://codex.wordpress.org/Installing_WordPress#Famous_5-Minute_Install>
+['.inditingcycles.com', '.photologu.es', 'wp.annotalia.com'].each do |domain|
+  N.new(domain, lh('public/wordpress')) \
+    { index_redir('index.php?q='); php } >> gen[:neko]
+end
+N.new('indcyc.com',    :localhost) { proxy(4632) } >> gen[:neko]
+N.new('annotalia.com', :localhost) { proxy(2666) } >> gen[:neko]
+N.new('alpha.photologu.es',  lh('public/travelogue')) { php; } >> gen[:neko]
+
+################################################################################
+#
+#
+# My personal websites
+# 
+#
+[
+  '.kamipad.com', 
+  '.eshao.es', 
+  '.lambdapress.com', 
+  '.friedneko.com',
+].each {|domain| N.new(domain) { pppr } >> gen[:neko] }
+N.new('.ring0.org') { oputs 'default_type text/plain;'; php } >> gen[:neko]
+
+# Archive.
+def fn(str); File.join(www('friedneko.com'), str); end
+N.new('aimlog.friedneko.com',  fn('archive/misc/aimlog'), fn('log')) \
+  { php; } >> gen[:neko]
+N.new('archive.friedneko.com', fn('archive'),             fn('log')) \
+  { php; password pw[:personal] } >> gen[:neko]
+
+################################################################################
+#
+#
+# My projects
+# 
+#
+N.new('graphafrica.com') { php } >> gen[:neko]
+N.new('wiki.graphafrica.com', \
+      www('graphafrica.com/doku'), \
+      www('graphafrica.com/log')) { doku; php } >> gen[:neko]
+
+# Al Howar
+N.new('alhowar.com',       :localhost) { fcgi(7333) }      >> gen[:lp]
+N.new('thin.alhowar.com',  :localhost) { proxy(6927) }     >> gen[:lp]
+N.new('arc.alhowar.com',   :localhost) { proxy(6397) }     >> gen[:lp]
+N.new('rails.alhowar.com', :localhost) { rails(46927, 2) } >> gen[:lp]
+
+################################################################################
+#
+#
+# Others' personal websites
+#
+#
+[
+  '.fieldsblack.com', 
+  '.ncrap.com', 
+  '.elementsofthemind.com', 
+  '.bysusanlin.com'
+].each {|domain| N.new(domain) { php } >> gen[:neko] }
+redir('.eddafields.com', 'http://fieldsblack.com') >> gen[:neko]
+N.new('.asiakitchen.org', \
+      www('bysusanlin.com/public/asiakitchen.org'), \
+      www('bysusanlin.com/log')) { php } >> gen[:neko]
+
+################################################################################
+#
+#
+# Some defaults
+#
+#
+['localhost', '.tunnel.sh', '.nekogiri.com'].each do |domain|
+  N.new(domain, :localhost) { pppr } >> gen[:default]
+end
+
+# Some applications.
+N.new('cdb.tunnel.sh',        :localhost) \
+  { proxy(5984); password pw[:personal] } >> gen[:default]
+N.new('pma.tunnel.sh',        '/usr/share/phpmyadmin') { php } >> gen[:default]
+
+# Redirect/shortcuts.
+[
+  ['phpmyadmin.tunnel.sh', 'http://pma.tunnel.sh'],
+  ['couchdb.tunnel.sh', 'http://cdb.tunnel.sh'],
+  ['etc.tunnel.sh', 'https://github.com/eshao/etc'],
+].each {|from_to| redir(from_to[0], from_to[1]) >> gen[:default] }
+
+# Indite.
+N.new('indite.tunnel.sh', lh('public/indite')) { 
+    oputs 'if (-f $request_filename.mm.html) { rewrite ^(.*)$ $1.mm.html last; } 
+    if (-f $request_filename.plain.html) { rewrite ^(.*)$ $1.plain.html last; } 
+    if (-f $request_filename.htm) { rewrite ^(.*)$ $1.htm last; } 
+    if (-f $request_filename.pdf) { rewrite ^(.*)$ $1.pdf last; } 
+    if (-f $request_filename.txt) { rewrite ^(.*)$ $1.txt last; } 
+    if (-f $request_filename.html) { rewrite ^(.*)$ $1.html last; }'; 
+    php } >> gen[:neko]
+
+

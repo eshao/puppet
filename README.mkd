@@ -14,11 +14,12 @@ I heavily use jails as a virtualization tool. Puppet + Jails = easy to put up an
 
 List of Modules
 ---------------
-* core -- System files for hypervisor and child jails.
-* environment/project -- Baseline programming environments for projects to inherit and examples of some of those projects.
-* exim/mailman -- Configuration for baseline exim/mailman install. Extensive documentation available on how to move from one server to another. Less, but still documented, on how to install.
-* ezjail -- Jail manager for FreeBSD. Really useful for setting up/tearing down jails quickly.
-* mount -- Very simple module to control fstab.
+* __core__ -- System files for hypervisor and child jails.
+* __environment/project__ -- Baseline programming environments for projects to inherit and examples of some of those projects.
+* __exim/mailman__ -- Configuration for baseline exim/mailman install. Extensive documentation available on how to move from one server to another. Less, but still documented, on how to install.
+* __ezjail__ -- Jail manager for FreeBSD. Really useful for setting up/tearing down jails quickly.
+* __mount__ -- Very simple module to control jailed fstabs for ezjail.
+* __nginx__ -- Complete configuration to nginx, one of my specialties. It includes a copy of [stationx](http://github.com/eshao/stationx), a configuration generation tool for nginx -- it makes managing nginx configuration files much easier!
 
 
 Caveats
@@ -36,9 +37,14 @@ Files changed for privacy concerns:
 * modules/exim/templates/aliases.erb
 
 
+Files blanked to size 0 for privacy concerns:
+
+* modules/nginx/files/passwords/personal.htaccess
+
+
 Files removed for privacy concerns:
 
-* None yet.
+* modules/nginx/files/enabled/* -- unnecessary, as can generate it using included stationx.
 
 
 TODO

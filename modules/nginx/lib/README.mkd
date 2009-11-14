@@ -1,0 +1,114 @@
+stationx -- An Nginx Configuration Generator
+================================
+
+Quick note: For now, an example configuration file can be found at <http://dl.dropbox.com/u/146184/config.rb> but this will move to Github ASAP.
+
+stationx is an attempt to make creating and **maintaining** [nginx](http://nginx.net/) configuration files easier.
+
+Instead of writing something like this:
+
+     1 server {
+     2   set $name         eshao.es;
+     3   set $root         /var/www/eshao.es;
+     4   set $root_pub     /var/www/eshao.es/public;
+     5   set $rel_root_pub eshao.es/public;     
+     6
+     7   listen 80;
+     8   server_name   .eshao.es;
+     9   access_log    /var/www/eshao.es/log/access.log;
+    10   error_log     /var/www/eshao.es/log/error.log info; 
+    11
+    12   if ($host ~* ^www.(.*)) {
+    13     set $host_without_www $1;
+    14     rewrite ^(.*)$ http://$host_without_www$1 permanent;
+    15   }         
+    16
+    17   if ($host ~ ^(.*?).?eshao.es) {
+    18     set $subdomain $1;
+    19   }
+    20             
+    21   location ~ .php$ {
+    22     fastcgi_pass    127.0.0.1:9000;
+    23     fastcgi_index index.php;
+    24     fastcgi_param SCRIPT_FILENAME $root_pub/$subdomain/$fastcgi_script_name;
+    25     include /etc/nginx/fastcgi_params;
+    26   }
+    27
+    28   location ~ .py$ {
+    29     proxy_pass       http://localhost:8080/$rel_root_pub/$subdomain/$uri;
+    30     proxy_set_header Host $host;        
+    31   }
+    32
+    33   location ~ .pl$ {
+    34     proxy_pass       http://localhost:8080/$rel_root_pub/$subdomain/$uri;
+    35     proxy_set_header Host $host;
+    36   }
+    37
+    38   location ~ .rb$ {
+    39     proxy_pass       http://localhost:8080/$rel_root_pub/$subdomain/$uri;
+    40     proxy_set_header Host $host;        
+    41   }
+    42
+    43   root          $root_pub/$subdomain/;
+    44   index         index.php index.html index.htm home.php home.html home.htm main.php main.html main.htm;
+    45 }
+
+Write something as simple as this:
+
+     1 N.new('.eshao.es') { pppr } >> 'nginx_configuration_file_for_server1'
+
+To summarize the benefits:
+
+* __Far smaller configurations__: In my personal sysadmin duties, this has reduced 52 kilobytes of messy non-standard nginx configurations into a sleek 6 kilobyte [file](http://dl.dropbox.com/u/146184/config.rb). 
+* __Standardized configurations__: Instead of hunting best-practice configurations from Wiki, Google, and heresay, let geeks in the know provide the specifics of your configuration. If you don't want to deal with the details, they're happily abstracted away from you.
+* __[DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself) configurations__: Whenever I need to change anything, I change it in one place and run one ruby script to regenerate configurations for ALL my domains.
+* __Extensibility__: Out of the box, stationx comes with support for Wordpress, Doku, Rails, Sinatra, and other applications that need proxying or rewriting. If you need to add further customization for your favorite software, simply modify options_core.rb with the snippet of text you need included.
+* __Quicker generation of new configurations__: Now whenever a friend asks you to host their personal domain, you don't need to cringe at the thought of copy-pasting yet another nginx configuration. Just add one line and you're done!
+
+The only time you shouldn't use stationx is when you have many non-standard configurations. 
+
+
+Philosophy
+----------------
+* __One-right-way__ -- Borrowing from Python, there is one correct place for your files for a given domain to go. Even though you can customize, we codify best practices into the framework. 
+* __Declaritive language__ -- Taking a cue from Puppet, specify what you want your end result to be instead of how to get there. 
+
+
+Configuration & Setup
+-------------------------------
+The standard download includes an example file consisting of my own personal stationx configuration file. Please play around with it and slowly co-opt it for your own use.
+
+For now, it expects a folder hierarchy like this:
+
+* config.rb
+* lib/{nginx_server.rb,options_core.rb}
+* files/enabled/<output files go here>
+
+After successfully running <ruby config.rb> for `N.new('.example.com') >> 'server1'`, you will have an nginx config file in <files/enabled/server1>. This file should be copied into your enabled sites folder and expects the following web directory setup:
+
+* __/var/www__ -- Location of all served files.
+* __/var/www/eshao.es/public__ -- Location of all served files for `{www,}.eshao.es`. <http://eshao.es> corresponds to `/var/www/eshao.es/public/index.html` .
+* __/var/www/eshao.es/public/sd__ -- Location of all served files for `sd.eshao.es`. http://sd.eshao.es corresponds to `/var/www/eshao.es/public/sd/index.html` .
+* __/var/www/eshao.es/log__ -- Location of log files.
+
+Here is a baseline setup for `N.new('.example.com') { php }`:
+
+TBD
+
+
+Timeline
+------------
+stationx is currently in a usable beta form. As it is a personal project, it needs to be cleaned up and its configurations need to be vetted by experts so we can authoritatively say we have best-practice configurations. 
+
+Here is a roadmap of what needs to be done:
+
+* Freeze and document the API.
+* Provide copies of baseline nginx.conf to let people bootstrap.
+* Wiki-ish documentation and examples need to be added. 
+    * Give a walkthrough of setting up an nginx configuration with stationx on FreeBSD -- where different files should go, etc.
+    * Document how nginx plays with {php's fastcgi, thttpd, rails, wordpress}.
+* Collect feedback and patches from experts on configurations themselves.
+* Refactor options_core.rb into smaller files that are considered modules or extensions. Some code from nginx_core.rb should also go into these modules. Extensibility is a priority.
+* Document and refactor nginx_core.rb so a newcomer can see what it is doing.
+
+

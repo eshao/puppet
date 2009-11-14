@@ -1,0 +1,20 @@
+# Remember to add_virtualhost('lists.cmudso.org', 'lists.cmudso.org') in /etc/mailman/mm_cfg.py
+server {
+  listen 80;
+  server_name rt.cmudso.org;
+
+  access_log /var/www/localhost/log/access.log;
+  error_log /var/www/localhost/log/error.log info;
+
+  # Show in the main page the list info
+  rewrite ^/$ / last;
+
+  location /rt/ {
+    # Use thttpd for CGI
+    proxy_pass http://127.0.0.1:8080/rt/;
+
+    proxy_set_header Host $host;
+    #proxy_intercept_errors on;
+  }
+}
+
