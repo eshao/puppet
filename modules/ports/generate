@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require '.generate'
+
+generate("sudo", ["sudoers", 440])
+generate("vim")

@@ -1,0 +1,6 @@
+In here go all ports. Conveniently, they all are prefixed with /usr/local/etc.
+Therefore, their configuration should be very easy. Even scriptable.
+
+Automatically excludes many core system apps, which use /etc.
+
+ONLY for ports with no moving parts, ie: one static configuration file.
