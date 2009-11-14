@@ -1,0 +1,18 @@
+# fstab.<%= name %>
+/usr/jails/basejail /usr/jails/<%= name %>/basejail nullfs ro,noatime 0 0
+
+<% unless name == 'dso' %>
+# Mount <eshao>.
+/home/eshao/.git    /usr/jails/<%= name %>/usr/home/eshao/.git nullfs rw 0 0
+/home/eshao/wsp     /usr/jails/<%= name %>/usr/home/eshao/wsp nullfs rw 0 0
+<% end %>
+
+<% if name == 'neko' || name == 'dso' %>
+# Mount <www>.
+/fs/<%= name %>/www        /usr/jails/<%= name %>/var/www nullfs rw 0 0
+<% end %>
+
+<% if name == 'dso' %>
+# Mount <mailman>.
+/fs/<%= name %>/mailman        /usr/jails/<%= name %>/usr/local/mailman nullfs rw 0 0
+<% end %>

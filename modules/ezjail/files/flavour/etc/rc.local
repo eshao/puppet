@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# BEFORE: DAEMON
+#
+# ezjail flavour example
+
+# Hide
+#######
+#
+# Prevent this script from being called over and over if something fails.
+
+rm -f /etc/rc.local /etc/rc.d/ezjail-config.sh /ezjail.flavour
+
+# Packages
+###########
+#
+# Install all packages previously put to /pkg
+# Remove package files afterwards
+
+find /basejail/pkg -type d -exec sh -c "cd {}; pkg_add *" \;
+
+# Puppet
+#########
+#
+# Take care of setting up puppet.
+
+/usr/local/bin/puppetd --test
+/usr/local/bin/puppetd --test
+/usr/local/etc/rc.d/puppetd start
+
+# Postinstall
+##############
+#
+# Your own stuff here, for example set login shells that were only 
+# installed just before.
+/etc/rc.d/sshd start
+
+# Please note, that for all network related stuff like ports,
+# package remote fetching, etc. you need a sane /etc/resolv.conf
+
+# chpass -s /usr/local/bin/bash admin
+# pkg_add -r pico
+# cd /usr/ports/sysutils/screen && make install
