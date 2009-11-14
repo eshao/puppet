@@ -1,0 +1,43 @@
+# $FreeBSD$
+#
+# Host Database
+#
+# This file should contain the addresses and aliases for local hosts that
+# share this file.  Replace 'my.domain' below with the domainname of your
+# machine.
+#
+# In the presence of the domain name service or NIS, this file may
+# not be consulted at all; see /etc/nsswitch.conf for the resolution order.
+#
+#
+::1         localhost.localdomain localhost
+<%= lo %>		localhost.localdomain localhost
+
+# 
+# Imaginary networks
+#
+
+# Needed for puppetd to know where to connect.
+67.58.98.11      puppet.<%= domain %>      puppet
+
+# Shortcuts for the other machines on this network.
+67.58.98.10      rescue.<%= domain %>      rescue
+67.58.98.11      hyper.<%= domain %>       hyper
+67.58.98.12      neko.<%= domain %>        neko
+67.58.98.13      dso.<%= domain %>         dso
+67.58.98.14      lp.<%= domain %>          lp
+
+
+#
+# According to RFC 1918, you can use the following IP networks for
+# private nets which will never be connected to the Internet:
+#
+#	10.0.0.0	-   10.255.255.255
+#	172.16.0.0	-   172.31.255.255
+#	192.168.0.0	-   192.168.255.255
+#
+# In case you want to be able to connect to the Internet, you need
+# real official assigned numbers.  Do not try to invent your own network
+# numbers but instead get one from your network provider (if any) or
+# from your regional registry (ARIN, APNIC, LACNIC, RIPE NCC, or AfriNIC.)
+#

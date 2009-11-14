@@ -1,0 +1,65 @@
+#!/bin/sh
+##############################################################
+###  Important initial Boot-time options  ####################
+##############################################################
+hostname="<%= fqdn %>"  # Like: hyper.nekogiri.com
+clear_tmp_enable="YES"
+
+##############################################################
+###  Network configuration sub-section  ######################
+##############################################################
+### Basic network and firewall/security options: ###
+defaultrouter="67.58.98.9"
+ifconfig_rl0="inet 67.58.98.10/25"
+ifconfig_rl0_alias0="inet 67.58.98.11/25"
+ifconfig_rl0_alias1="inet 67.58.98.12/25"
+ifconfig_rl0_alias2="inet 67.58.98.13/25"
+ifconfig_rl0_alias3="inet 67.58.98.14/25"
+ifconfig_lo0="inet 127.0.0.1"
+ifconfig_lo0_alias0="inet 127.0.0.10"
+ifconfig_lo0_alias1="inet 127.0.0.11"
+ifconfig_lo0_alias2="inet 127.0.0.12"
+ifconfig_lo0_alias3="inet 127.0.0.13"
+ifconfig_lo0_alias4="inet 127.0.0.14"
+
+##############################################################
+###  Initial Start Services (daemons)   ######################
+##############################################################
+ntpd_enable="NO"
+syslogd_enable="YES"
+syslogd_flags="-ss"     # Don't log to or from remote addresses.
+
+pf_enable="YES"
+cron_enable="YES"
+dmesg_enable="YES"
+
+sendmail_enable="NO"
+sendmail_submit_enable="NO"
+sendmail_outbound_enable="NO"
+sendmail_msp_queue_enable="NO"
+
+##############################################################
+### Jail Configuration #######################################
+##############################################################
+ezjail_enable="YES"
+jail_enable="YES"
+jail_set_hostname_allow="NO"
+jail_set_mount_enable="YES"
+jail_set_allow_raw_sockets="YES"
+#jail_socket_unixiproute_only="NO" 
+
+# Needed for PostgreSQL in jails.
+#   ref: <http://www.freebsddiary.org/jail-multiple.php>
+jail_sysvipc_allow="YES"
+
+<% if jailed == '0' then %>
+<% else %>
+# No network interfaces in jails
+network_interfaces=""
+
+# Prevent rpc
+rpcbind_enable="NO"
+
+# Prevent loads of jails doing their cron jobs at the same time
+cron_flags="$cron_flags -J 15"
+<% end %>
