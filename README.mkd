@@ -16,6 +16,7 @@ List of Modules
 ===============
 * core -- System files for hypervisor and child jails.
 * environment/project -- Baseline programming environments for projects to inherit and examples of some of those projects.
+* exim/mailman -- Configuration for baseline exim/mailman install. Extensive documentation available on how to move from one server to another. Less, but still documented, on how to install.
 
 
 Caveats

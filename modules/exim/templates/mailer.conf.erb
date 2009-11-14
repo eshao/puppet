@@ -1,0 +1,5 @@
+<% sendmail_location = '/usr/local/sbin/exim' %>
+sendmail          <%= sendmail_location %>
+send-mail         <%= sendmail_location %>
+mailq             <%= sendmail_location %> -bp
+newaliases        /usr/bin/true

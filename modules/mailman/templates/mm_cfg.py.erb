@@ -1,0 +1,76 @@
+# -*- python -*-
+
+# Copyright (C) 1998,1999,2000,2001,2002 by the Free Software Foundation, Inc.
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software 
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+"""This module contains your site-specific settings.
+
+From a brand new distribution it should be copied to mm_cfg.py.  If you
+already have an mm_cfg.py, be careful to add in only the new settings you
+want.  Mailman's installation procedure will never overwrite your mm_cfg.py
+file.
+
+The complete set of distributed defaults, with documentation, are in the file
+Defaults.py.  In mm_cfg.py, override only those you want to change, after the
+
+  from Defaults import *
+
+line (see below).
+
+Note that these are just default settings; many can be overridden via the
+administrator and user interfaces on a per-list or per-user basis.
+
+"""
+
+###############################################
+# Here's where we get the distributed defaults.
+
+from Defaults import *
+
+##################################################
+# Put YOUR site-specific settings below this line.
+
+<%
+  primary_list = mailman_lists[1]
+  secondary_lists = mailman_lists[1..-1]
+%>
+
+DEFAULT_EMAIL_HOST = '<%= primary_list %>'
+DEFAULT_URL_HOST   = '<%= primary_list %>'
+add_virtualhost(DEFAULT_URL_HOST, DEFAULT_EMAIL_HOST)
+<% secondary_lists.each do |list| %>
+add_virtualhost('<%= list %>', '<%= list %>')
+<% end %>
+
+# We configured Exim so it automatically recognizes newly created lists.
+# ref: </usr/share/doc/mailman/README.Exim4.Debian>
+MTA = None
+
+# Added by eshao:
+DEFAULT_SEND_REMINDERS = No
+DEFAULT_MAX_MESSAGE_SIZE = 30720  # 30 MB
+DEFAULT_DEFAULT_MEMBER_MODERATION = Yes
+DEFAULT_REQUIRE_EXPLICIT_DESTINATION = No
+DEFAULT_SUBSCRIBE_POLICY = 2  # Admin approval, not confirmation req'd.
+DEFAULT_PRIVATE_ROSTER = 2  # Only admins can see member list.
+DEFAULT_ADMIN_NOTIFY_MCHANGES = Yes
+
+# As suggested by <ref:http://www.exim.org/howto/mailman21.html>
+# Max recipients for each message
+SMTP_MAX_RCPTS = 15
+# Max messages sent in each SMTP connection
+SMTP_MAX_SESSIONS_PER_CONNECTION = 30
+
