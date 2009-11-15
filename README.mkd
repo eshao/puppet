@@ -24,7 +24,7 @@ It was important for me to be able to quickly tear down a jail and put it up aga
 
 That is the main use case for my use of Puppet. Here are the secondary reasons:
 
-* __DRY configuration files__ -- When I create a configuration file, I usually want to use it on all machines. I hate the process of making sure each copy of a file is identical.
+* __[DRY](http://en.wikipedia.org/wiki/Don%27t_repeat_yourself) configuration files__ -- When I create a configuration file, I usually want to use it on all machines. I hate the process of making sure each copy of a file is identical.
 * __Canonical location for files__ -- It was also nice to have one place to refer to for the "latest" copy of each file.
 * __Canonical location for documentation__ -- For software I use often, I usually have some sort of "how-to-install" notes for myself. Puppet is a great place to keep and share such notes.
 * There are probably others, I'll put them up as I think of them.
