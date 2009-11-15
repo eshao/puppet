@@ -2,7 +2,7 @@ Introduction
 ============
 This is a collection of [Puppet](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) configuration files for FreeBSD. I make heavy use of defaults and defines to heavily reduce code weight. Hopefully this will be of instructive value to new users of Puppet and inspirational value to old users.
 
-I am definitely willing to add additional documentation as necessary. Just [email](mailto:oss@eshao.es) me.
+I am definitely willing to add additional documentation as necessary. Just [email](mailto:eshao@nekogiri.com) me.
 
 
 Infrastructure
@@ -23,7 +23,7 @@ List of Modules
 * __mysql__ -- Simple mysql+[sphinx](http://www.sphinxsearch.com/) module.
 * __ports__ -- Controls installation of all software not covered above. (Basically, every port that requires installation but not configuration.) Includes simple ruby script to help automate this process.
 * __puppet__ -- Meta module that maintains Puppet's files.
-
+* __ssh__ -- Managed per-machine ssh keys.
 
 Caveats
 -------
@@ -49,7 +49,7 @@ Files blanked to size 0 for privacy concerns:
 Files removed for privacy concerns:
 
 * modules/nginx/files/enabled/* -- unnecessary, as can generate it using included stationx.
-
+* modules/ssh/files/* -- files of format: ssh_host_{dsa,rsa,}_key.<hostname>
 
 TODO
 ----
