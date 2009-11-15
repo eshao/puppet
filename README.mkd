@@ -39,19 +39,22 @@ My suggestion for you is try all of them and pick the author you find most lucid
 
 Files changed for privacy concerns:
 
-* tagmail.conf
-* modules/puppet/templates/tagmail.conf.erb
-* modules/exim/templates/aliases.erb
+* __tagmail.conf__ -- redacted email addresses.
+* __modules/puppet/templates/tagmail.conf.erb__ -- redacted email addresses.
+* __modules/exim/templates/aliases.erb__ -- redacted email addresses.
+* __modules/user/manifests/virtual.pp__ -- removed users and changed to bogus password hashes.
+* __modules/user/manifests/real/dso.pp__ -- changed real users to bogus ones.
+* __modules/user/manifests/real/neko.pp__ -- changed real users to bogus ones.
 
 Files blanked to size 0 for privacy concerns:
 
-* modules/nginx/files/passwords/personal.htaccess
-
+* __modules/nginx/files/passwords/personal.htaccess__ -- obvious reason.
 
 Files removed for privacy concerns:
 
-* modules/nginx/files/enabled/* -- unnecessary, as can generate it using included stationx.
-* modules/ssh/files/* -- files of format: ssh_host_{dsa,rsa,}_key.<hostname>
+* __modules/nginx/files/enabled/*__ -- (5 files) -- unnecessary, as can generate it using included stationx.
+* __modules/ssh/files/*__ -- (15 files) -- files of format: ssh_host_{dsa,rsa,}_key.<hostname>
+
 
 TODO
 ----
