@@ -24,6 +24,8 @@ List of Modules
 * __ports__ -- Controls installation of all software not covered above. (Basically, every port that requires installation but not configuration.) Includes simple ruby script to help automate this process.
 * __puppet__ -- Meta module that maintains Puppet's files.
 * __ssh__ -- Managed per-machine ssh keys.
+* __thttpd__ -- Configured specifically for nginx/mailman.
+
 
 Caveats
 -------
