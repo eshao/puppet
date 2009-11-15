@@ -22,6 +22,8 @@ List of Modules
 * __nginx__ -- Complete configuration to nginx, one of my specialties. It includes a copy of [stationx](http://github.com/eshao/stationx), a configuration generation tool for nginx -- it makes managing nginx configuration files much easier!
 * __mysql__ -- Simple mysql+[sphinx](http://www.sphinxsearch.com/) module.
 * __ports__ -- Controls installation of all software not covered above. (Basically, every port that requires installation but not configuration.) Includes simple ruby script to help automate this process.
+* __puppet__ -- Meta module that maintains Puppet's files.
+
 
 Caveats
 -------
@@ -35,8 +37,9 @@ My suggestion for you is try all of them and pick the author you find most lucid
 
 Files changed for privacy concerns:
 
+* tagmail.conf
+* modules/puppet/templates/tagmail.conf.erb
 * modules/exim/templates/aliases.erb
-
 
 Files blanked to size 0 for privacy concerns:
 
