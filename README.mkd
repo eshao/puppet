@@ -7,9 +7,27 @@ I am definitely willing to add additional documentation as necessary. Just [emai
 
 Infrastructure
 --------------
-(TODO: Introduction to my server's infrastructure and personal philosophy behind managing servers here.)
+My infrastructure consists of one physical machine separated into several jails for permission AND ease-of-use purposes.
 
-I heavily use jails as a virtualization tool. Puppet + Jails = easy to put up and tear down (virtual) machines at whim.
+* __rescue__ -- Hypervisor machine and fileserver.
+* __hyper__ -- Jail, hosts puppetmasterd.
+* __neko__ -- Jail, personal sites.
+* __dso__ -- Jail, for [DSO](http://dsoglobal.org), a student org I founded.
+* __lp__ -- Jail, for experimental use.
+
+It was important for me to be able to quickly tear down a jail and put it up again with a preset environment already installed. In general, this is how I do it:
+
+1. Use [ezjail-admin](http://erdgeist.org/arts/software/ezjail/) to drop the jail.
+2. Use Puppet (node.pp) to configure the environment of the new jail: which {users,ports,development environments,daemons/services,projects} are present/running.
+3. Use ezjail again to bring up the new jail. The ezjail module makes sure that puppetd is already running on the new jail.
+4. Login to the new jail and run Puppet to bring it fully online.
+
+That is the main use case for my use of Puppet. Here are the secondary reasons:
+
+* __DRY configuration files__ -- When I create a configuration file, I usually want to use it on all machines. I hate the process of making sure each copy of a file is identical.
+* __Canonical location for files__ -- It was also nice to have one place to refer to for the "latest" copy of each file.
+* __Canonical location for documentation__ -- For software I use often, I usually have some sort of "how-to-install" notes for myself. Puppet is a great place to keep and share such notes.
+* There are probably others, I'll put them up as I think of them.
 
 
 List of Modules
@@ -26,6 +44,7 @@ List of Modules
 * __ssh__ -- Managed per-machine ssh keys.
 * __thttpd__ -- Configured specifically for nginx/mailman.
 * __user__ -- Shows how to setup the virtual/real user model advocated on Puppet's wiki. The examples there aren't as full, so this should be helpful to new users.
+
 
 Caveats
 -------
