@@ -2,7 +2,7 @@ Introduction
 ============
 This is a collection of [Puppet](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) configuration files for FreeBSD. I make heavy use of defaults and defines to heavily reduce code weight. Hopefully this will be of instructive value to new users of Puppet and inspirational value to old users.
 
-I am definitely willing to add additional documentation as necessary. Just [email](mailto:eshao@ring0.org) me.
+I am definitely willing to add additional documentation as necessary. Just [email](mailto:eshao@nekogiri.com) me.
 
 
 Infrastructure
