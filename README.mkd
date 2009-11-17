@@ -60,7 +60,7 @@ Caveats
 -------
 These configuration files are all working and in production on my own server. However, because I redacted several files for privacy reasons (SSH id_rsa's, for example), I don't guarantee that the complete configuration will work out of the box for you.
 
-However, I still think they'll be of instructive value for those who think/code like me. I searched quite a while for a complete/simple/comprehensive Puppet public repository and failed to find one. There are several [complete](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) ones, but were slightly confusing for me to follow along.
+However, I still think they'll be of instructive value for those who think/code like me. I searched quite a while for a complete/simple/comprehensive Puppet public repository and failed to find one. There are [several](http://reductivelabs.com/trac/puppet/wiki/PuppetModules) [complete](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) ones, but were slightly confusing for me to follow along.
 
 My suggestion for you is try all of them and pick the author you find most lucid.
 
