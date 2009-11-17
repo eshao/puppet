@@ -1,8 +1,24 @@
-Introduction
-============
-This is a collection of [Puppet](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) configuration files for FreeBSD. I make heavy use of defaults and defines to heavily reduce code weight. Hopefully this will be of instructive value to new users of Puppet and inspirational value to old users.
+Please README First!
+====================
+This is a collection of [Puppet](http://reductivelabs.com/trac/puppet/wiki/DocumentationStart) 0.24.8 configuration files for FreeBSD. I make heavy use of defaults and defines to heavily reduce code weight. Hopefully this will be of instructive value to new users of Puppet and inspirational value to old users.
 
 I am definitely willing to add additional documentation as necessary. Just [email](mailto:eshao@nekogiri.com) me.
+
+
+List of Modules
+---------------
+* __core__ -- System files for hypervisor and child jails.
+* __environment/project__ -- Baseline programming environments for projects to inherit and examples of some of those projects.
+* __exim/mailman__ -- Configuration for baseline exim/mailman install. Extensive documentation available on how to move from one server to another. Less, but still documented, on how to install.
+* __ezjail__ -- Jail manager for FreeBSD. Really useful for setting up/tearing down jails quickly.
+* __mount__ -- Very simple module to control jailed fstabs for ezjail.
+* __nginx__ -- Complete configuration to nginx, one of my specialties. It includes a copy of [stationx](http://github.com/eshao/stationx), a configuration generation tool for nginx -- it makes managing nginx configuration files much easier!
+* __mysql__ -- Simple mysql+[sphinx](http://www.sphinxsearch.com/) module.
+* __ports__ -- Controls installation of all software not covered above. (Basically, every port that requires installation but not configuration.) Includes simple ruby script to help automate this process.
+* __puppet__ -- Meta module that maintains Puppet's files. Essential for any Puppet setup.
+* __ssh__ -- Managed per-machine ssh keys.
+* __thttpd__ -- Configured specifically for nginx/mailman.
+* __user__ -- Shows how to setup the virtual/real user model advocated on Puppet's wiki. The examples there aren't as full, so this should be helpful to new users.
 
 
 Infrastructure
@@ -30,20 +46,12 @@ That is the main use case for my use of Puppet. Here are the secondary reasons:
 * There are probably others, I'll put them up as I think of them.
 
 
-List of Modules
----------------
-* __core__ -- System files for hypervisor and child jails.
-* __environment/project__ -- Baseline programming environments for projects to inherit and examples of some of those projects.
-* __exim/mailman__ -- Configuration for baseline exim/mailman install. Extensive documentation available on how to move from one server to another. Less, but still documented, on how to install.
-* __ezjail__ -- Jail manager for FreeBSD. Really useful for setting up/tearing down jails quickly.
-* __mount__ -- Very simple module to control jailed fstabs for ezjail.
-* __nginx__ -- Complete configuration to nginx, one of my specialties. It includes a copy of [stationx](http://github.com/eshao/stationx), a configuration generation tool for nginx -- it makes managing nginx configuration files much easier!
-* __mysql__ -- Simple mysql+[sphinx](http://www.sphinxsearch.com/) module.
-* __ports__ -- Controls installation of all software not covered above. (Basically, every port that requires installation but not configuration.) Includes simple ruby script to help automate this process.
-* __puppet__ -- Meta module that maintains Puppet's files. Essential for any Puppet setup.
-* __ssh__ -- Managed per-machine ssh keys.
-* __thttpd__ -- Configured specifically for nginx/mailman.
-* __user__ -- Shows how to setup the virtual/real user model advocated on Puppet's wiki. The examples there aren't as full, so this should be helpful to new users.
+Code Samples
+------------
+TODO: Walk through a canonical module that demonstrates language constructs I use.
+TODO: Walk through confusing modules here. (user, environment?) 
+  
+Would someone be kind enough to let me know which modules they find the most confusing or demonstrative/canonical of this repo?
 
 
 Caveats
@@ -77,10 +85,8 @@ Files removed for privacy concerns:
 
 TODO
 ----
-There is an embarassing amount TODO simply because I just started this project. Hints on how to prioritize would be nice. Again, hit up my email.
+There is an embarassing amount TODO simply because I just open-sourced my modules. (Although the production version has been in development for a long time and represents years of experience.) Hints on how to prioritize would be nice. Again, hit up my email.
 
-* Introduction on my server infrastructure / use of jails as a background.
 * Logic behind the various files in /manifests and how they interact.
-* Document the use of defines and defaults within modules.
-* Table of contents page with brief summary of each module.
+* Document the use of defines and defaults within modules (through code samples?).
 * Make this TODO list comprehensive.
